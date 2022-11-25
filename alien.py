@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
+
 class Alien(Sprite):
     """Class for one alien."""
 
@@ -20,7 +21,7 @@ class Alien(Sprite):
 
         # Saving horizontal position of the alien.
         self.x = float(self.rect.x)
-        
+
     def update(self):
         self.x += (self.settings.alien_speed * self.settings.fleet_direction)
         self.rect.x = self.x

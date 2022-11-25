@@ -13,6 +13,7 @@ from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
 
+
 class AlienInvasion:
     """Class for resource and game management."""
     def __init__(self):
@@ -20,9 +21,9 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
         # Enables fullscreen option.
-        #self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        #self.settings.screen_width = self.screen.get_rect().width
-        #self.settings.screen_height = self.screen.get_rect().height
+        # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        # self.settings.screen_width = self.screen.get_rect().width
+        # self.settings.screen_height = self.screen.get_rect().height
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
@@ -35,7 +36,7 @@ class AlienInvasion:
         self.aliens = pygame.sprite.Group()
 
         self._create_fleet()
-    
+
     def run_game(self):
         """Launching the game cycle."""
         while True:
@@ -54,7 +55,7 @@ class AlienInvasion:
             if self.stats.game_active:
                 bullet_sound = pygame.mixer.Sound("sounds/bullet.wav")
                 pygame.mixer.Sound.play(bullet_sound)
-                        
+
     def _update_screen(self):
         # Rerender of screen.
         self.screen.fill(self.settings.bg_color)
@@ -81,12 +82,13 @@ class AlienInvasion:
         self._check_bullet_allien_collision()
 
     def _check_bullet_allien_collision(self):
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
+                                                True, True)
         if collisions:
             for alien in collisions.values():
                 self.stats.score += self.settings.alien_points * len(alien)
-            #alien_hit_sound = pygame.mixer.Sound("sounds/alien_hit.wav")
-            #pygame.mixer.Sound.play(alien_hit_sound)
+            # alien_hit_sound = pygame.mixer.Sound("sounds/alien_hit.wav")
+            # pygame.mixer.Sound.play(alien_hit_sound)
             self.sb.prep_score()
             self.sb.check_high_score()
         if not self.aliens:
@@ -115,8 +117,8 @@ class AlienInvasion:
     def _check_play_button(self, mouse_pos):
         play_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if play_clicked and not self.stats.game_active:
-            #new_game_sound = pygame.mixer.Sound("sounds/new_game.wav")
-            #pygame.mixer.Sound.play(new_game_sound)
+            # new_game_sound = pygame.mixer.Sound("sounds/new_game.wav")
+            # pygame.mixer.Sound.play(new_game_sound)
             self.stats.game_active = True
             self.stats.reset_stats()
             self.aliens.empty()
@@ -138,7 +140,7 @@ class AlienInvasion:
             self._fire_bullet()
 
     def _check_keyup_events(self, event):
-        # Handles operations when key is up.    
+        # Handles operations when key is up.
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
@@ -152,14 +154,14 @@ class AlienInvasion:
         # Creating alien and counting number of aliens in a row.
         # Interval between aliens equals alien width.
         alien = Alien(self)
-        alien_width , alien_height = alien.rect.size
+        alien_width, alien_height = alien.rect.size
         available_space_x = self.settings.screen_width - (2 * alien_width)
         number_aliens_x = available_space_x // (2 * alien_width)
 
         # Counting number of rows on the screen.
         ship_height = self.ship.rect.height
         available_space_y = (self.settings.screen_height -
-                                (3 * alien_height) - ship_height)
+                             (3 * alien_height) - ship_height)
         number_rows = available_space_y // (2 * alien_height) - 1
 
         # Creating the first row of aliens.
@@ -173,7 +175,8 @@ class AlienInvasion:
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
-        alien.rect.y = 2 * alien.rect.height + 2 * alien.rect.height * row_number
+        alien.rect.y = (2 * alien.rect.height +
+                        2 * alien.rect.height * row_number)
         self.aliens.add(alien)
 
     def _update_aliens(self):
@@ -216,6 +219,7 @@ class AlienInvasion:
             if alien.check_edges():
                 self._change_fleet_direction()
                 break
+
 
 if __name__ == '__main__':
     # Creating example and launching the game.

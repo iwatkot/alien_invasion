@@ -2,6 +2,7 @@ import pygame
 
 from pygame.sprite import Sprite
 
+
 class Ship(Sprite):
     """Class for ship controls."""
     def __init__(self, ai_game):
@@ -30,7 +31,7 @@ class Ship(Sprite):
             self.x += self.settings.ship_speed
         if self.moving_left and self.rect.left > 0:
             self.x -= self.settings.ship_speed
-        
+
         # Updating rect attribute with self.x.
         self.rect.x = self.x
 
